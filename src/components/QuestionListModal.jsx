@@ -3,6 +3,7 @@ import { Modal, Button } from 'react-bootstrap';
 import './QuestionListModal.css'; // Add styles as needed
 
 const QuestionListModal = ({ show, onHide, questionList=[], onQuestionClick }) => {
+  
   return (
     <Modal show={show} onHide={onHide} centered size="lg" className="question-modal">
       <Modal.Header closeButton>
@@ -12,14 +13,19 @@ const QuestionListModal = ({ show, onHide, questionList=[], onQuestionClick }) =
         <div className="question-list-container">
           {questionList.length > 0 ? (
             <ul className="question-list">
+              
               {questionList.map((question, index) => (
                 <li
                   key={index}
                   className="question-item"
-                  onClick={() => onQuestionClick(question, index)}
+                  onClick={() => onQuestionClick(question.question, index, question.image)}
                 >
                   <div className="question-number">{index + 1}</div>
-                  <div className="question-text">{question}</div>
+                  <div className="question-text">{question.question}</div>
+                  {question.image && (
+                    <img src={question.image} alt={`Question ${index + 1}`} className="question-image" />
+                  )}
+                 
                 </li>
               ))}
             </ul>

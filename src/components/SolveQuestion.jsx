@@ -7,6 +7,7 @@ import QuestionListModal from './QuestionListModal';
 
 
 function SolveQuestion() {
+  // console.log('SolveQuestion');
   const location = useLocation();
   const navigate = useNavigate();
   const [images, setImages] = useState([]);
@@ -15,15 +16,21 @@ function SolveQuestion() {
   const [showQuestionListModal, setShowQuestionListModal] = useState(false);
 
   // Extract necessary data from location state
-  const { question, index, questionList, class_id, subject_id, topic_ids, subtopic } = location.state || {};
+  const { question, index, questionList, class_id, subject_id, topic_ids, subtopic} = location.state || {};
+  console.log('location.state:', location.state);
+  console.log(questionList);
+  const { questionNumber } = location.state || {};
+  console.log('questionNumber:', questionNumber);
+  const question_image=questionList?.[questionNumber-1]?.image || '';
+  // console.log('question_image:', question_image);
   // console.log('question-list:', questionList);
-
    // State to manage current question data
    const [currentQuestion, setCurrentQuestion] = useState({
     question: location.state?.question,
-    index: location.state?.index,
+    index: location.state?.questionNumber-1,
+    image: question_image,
   });
-
+  // console.log('currentQuestion:', currentQuestion);
   useEffect(() => {
     // console.log("Updated currentQuestion:", currentQuestion);
   }, [currentQuestion]);
@@ -103,20 +110,35 @@ function SolveQuestion() {
   const handleCloseQuestionList = () => setShowQuestionListModal(false);
 
      // Function to handle question selection from modal
-  const handleQuestionSelect = (selectedQuestion, selectedIndex) => {
-    // Update currentQuestion with selected question and index
-    setCurrentQuestion({ question: selectedQuestion, index: selectedIndex });
-    handleCloseQuestionList(); // Close the modal after selection
-    // console.log("wwwddd:" ,question,index);
+     const handleQuestionSelect = (selectedQuestion, selectedIndex, selectedImage) => {
+      // Update currentQuestion with selected question, index, and image
+      // console.log('selectedQuestion:', selectedQuestion);
+      // console.log('selectedIndex:', selectedIndex);
+      // console.log('selectedImage:', selectedImage);
+      setCurrentQuestion({ question: selectedQuestion, index: selectedIndex, image: selectedImage });
+      handleCloseQuestionList(); // Close the modal after selection
   };
+  
 
   return (
     <div className="solve-question-wrapper">
       <div className="solve-question-container">
-        <div className="question-text-container">
-          <span className="solve-question-title">Question {currentQuestion.index}</span>
-          <p className="question-text">{currentQuestion.question}</p>
-        </div>
+      <div className="question-text-container">
+    {/* {console.log('currentQuestion:', currentQuestion)} */}
+    <span className="solve-question-title">Question {currentQuestion.index+1}.</span>
+    {currentQuestion.image && (
+        <img 
+            src={currentQuestion.image} 
+            alt="Question" 
+            className="question-image"
+        />
+    )}
+    
+    <p className="question-text">{currentQuestion.question}</p>
+    
+
+    </div>
+
         <Form onSubmit={(e) => e.preventDefault()}>
           <Form.Group controlId="formImage">
             <Form.Label>Upload Images</Form.Label>

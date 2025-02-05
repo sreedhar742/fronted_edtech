@@ -27,7 +27,7 @@ function StudentDash() {
       try {
         const classResponse = await axiosInstance.get('/classes/');
         const classesData = classResponse.data.data;
-        console.log('Classes:', classesData);
+        // console.log('Classes:', classesData);
         setClasses(classesData);
       } catch (error) {
         console.error('Error fetching classes', error);
@@ -98,6 +98,13 @@ function StudentDash() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  //   if (!questionType || 
+  //     (questionType === 'solved') ||
+  //     (questionType === 'exercise') ||
+  //     (questionType === 'external' && questionLevel)) {
+  //    console.error('Please select a valid question type');
+  //    return;
+  //  }
     
     const requestData = {
       classid: Number(selectedClass),
@@ -108,10 +115,29 @@ function StudentDash() {
       exercise: questionType === 'exercise',
       external: questionType === 'external' ? questionLevel : null
     };
+    if (!requestData.solved && !requestData.exercise && !requestData.external) {
+      alert('Please select a valid question type');
+      return;
+    }
     console.log('Request Data:', requestData);
+    
     try {
-      const response = await axiosInstance.post('/aiquestions/', requestData);
-      setQuestionList(response.data.questions);
+      const response = await axiosInstance.post('/question-images/', requestData);
+      const questionsWithImages = response.data.questions.map((question) => {
+        if (question.question_image) {
+          return {
+            ...question,
+            question: question.question, // Ensure question is a string
+            image: `data:image/png;base64,${question.question_image}`
+          };
+        }
+        return {
+          ...question,
+          question: question.question // Ensure question is a string
+        };
+      });
+      
+      setQuestionList(questionsWithImages);
       setShowQuestionList(true);
     } catch (error) {
       console.error('Error generating question list', error);

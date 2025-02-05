@@ -10,6 +10,7 @@
   }
   
   .solve-question-container {
+    background: linear-gradient(to bottom, #a1d9ff, #ffffff); 
     background-color: #fff;
     border: 2px solid #6f42c1; /* Purple border */
     border-radius: 8px;
@@ -33,6 +34,7 @@
   
   .question-text {
     color: #333;
+    
   }
   
   .uploaded-images {
@@ -119,5 +121,12 @@
       justify-content: space-between; /* Distribute space evenly between buttons */
       width :100%;
     }
+    .question-image {
+      max-width: 100%;
+      height: auto;
+      margin-top: 10px;
+      border-radius: 8px;
+  }
+  
     
 }

@@ -10,6 +10,7 @@
   }
   
   .result-content {
+    
     background-color: #fff;
     padding: 30px;
     border: 2px solid #6f42c1;
@@ -28,6 +29,7 @@
   }
   
   .result-question, .result-explanation,.result-accordion .accordion-item {
+    background: linear-gradient(to bottom, #a1d9ff, #ffffff); 
     margin-bottom: 15px;
     padding: 15px;
     border: 1px solid #6f42c1;
@@ -81,11 +83,14 @@
   }
   
   .result-accordion .accordion-body {
+    background: linear-gradient(to bottom, #a1d9ff, #ffffff); /* Smooth sky gradient */
+
     background-color: #f5f0ff; /* Matching body color */
     border-top: 1px solid #6f42c1;
   }
   
   .accordion-item {
+    
     margin-bottom: 10px;
   }
   
